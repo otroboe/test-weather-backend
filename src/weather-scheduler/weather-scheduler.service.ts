@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
+import { MeasureService } from '../measure/measure.service';
 import { WeatherApiService } from '../weather-api/weather-api.service';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class WeatherSchedulerService {
 
   constructor(
     private readonly apiService: WeatherApiService,
+    private readonly measureService: MeasureService,
     configService: ConfigService,
   ) {
     this.lat = configService.get<number>('LAT') || 0;
@@ -18,13 +20,14 @@ export class WeatherSchedulerService {
   }
 
   @Cron(CronExpression.EVERY_MINUTE)
-  // @Cron(CronExpression.EVERY_10_SECONDS)
   async weatherJob() {
-    const [observation, shortTerm] = await Promise.all([
-      this.apiService.fetchObservation(this.lat, this.long),
-      this.apiService.fetchShortTerm(this.lat, this.long),
-    ]);
+    const { feelsLike, temperature, weatherCode } =
+      await this.apiService.fetchObservation(this.lat, this.long);
 
-    console.log({ observation, shortTerm });
+    await this.measureService.create(this.lat, this.long, {
+      feelsLike,
+      temperature,
+      weatherCode: weatherCode?.value ?? '',
+    });
   }
 }

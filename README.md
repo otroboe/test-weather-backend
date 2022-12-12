@@ -43,3 +43,18 @@ docker compose down
 
 - [NestJS](https://docs.nestjs.com/)
 - [Docker](https://docs.docker.com/engine/install)
+
+## Instructions
+
+```
+Build a system with microservices using python, NodeJS or Golang. The system should get the
+data from APIs documented on the link below:
+https://weatherapi.pelmorex.com/api/v1/documentation/
+
+API Examples:
+https://weatherapi.pelmorex.com/v1/observation?lat=43.5100092&long=-79.8976626
+https://weatherapi.pelmorex.com/v1/shortterm?lat=43.5100092&long=-79.8976626
+
+The system will get the observation data and short-term data periodically and then the system
+will store this data in a time series format in a database.
+```
