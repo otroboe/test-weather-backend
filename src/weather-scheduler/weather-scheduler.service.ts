@@ -17,10 +17,14 @@ export class WeatherSchedulerService {
     this.long = configService.get<number>('LONG') || 0;
   }
 
-  // @Cron(CronExpression.EVERY_MINUTE)
-  @Cron(CronExpression.EVERY_10_SECONDS)
-  weatherJob() {
-    this.apiService.fetchObservation(this.lat, this.long);
-    this.apiService.fetchShortTerm(this.lat, this.long);
+  @Cron(CronExpression.EVERY_MINUTE)
+  // @Cron(CronExpression.EVERY_10_SECONDS)
+  async weatherJob() {
+    const [observation, shortTerm] = await Promise.all([
+      this.apiService.fetchObservation(this.lat, this.long),
+      this.apiService.fetchShortTerm(this.lat, this.long),
+    ]);
+
+    console.log({ observation, shortTerm });
   }
 }
