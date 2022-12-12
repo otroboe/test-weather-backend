@@ -1,5 +1,10 @@
 # Test Weather Backend
 
+## Setup ENV variables
+
+1. Create a new file named `.env`, for example like this `cp .env.example .env`.
+2. Update the variables with the right values if needed.
+
 ## Commands
 
 ```bash
