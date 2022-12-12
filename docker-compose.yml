@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: weather-mongo
+    restart: always
+    ports:
+      # Change default port avoiding conflict on local machine
+      - 27018:27017
+    volumes:
+      - mongodata:/data/db
+
+  # Help with dev/debug
+  mongo-ui:
+    image: mongo-express:latest
+    container_name: weather-mongo-ui
+    restart: always
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - 8001:8081
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017
+
+volumes:
+  mongodata:

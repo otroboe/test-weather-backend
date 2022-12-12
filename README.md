@@ -27,6 +27,19 @@ yarn format:check
 yarn check:all
 ```
 
+## Docker containers
+
+```bash
+# Start
+docker compose up -d
+
+# Stop
+docker compose down
+```
+
+- **Mongo UI** available at http://localhost:8001/.
+
 ## Resources
 
 - [NestJS](https://docs.nestjs.com/)
+- [Docker](https://docs.docker.com/engine/install)
